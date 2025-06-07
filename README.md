@@ -38,108 +38,74 @@ The evaluation results are stored in the `benchmark_results` directory:
 - `gemini_annotated/`: Results from YOLO+Gemini hybrid approach
 - `metrics/`: Detailed evaluation metrics and visualizations
 
-### Sample Detection Results
-
-Below are sample detection results comparing YOLO and YOLO+Gemini approaches:
-
-#### Example 1: Complex Scene with Multiple Devices
-![Sample Detection 1](benchmark_results/samples/complex_scene_comparison.png)
-*Left: YOLO detection, Right: YOLO+Gemini detection. Note the improved classification of the laptop and its components.*
-
-#### Example 2: Challenging Lighting Conditions
-![Sample Detection 2](benchmark_results/samples/lighting_comparison.png)
-*Left: YOLO detection, Right: YOLO+Gemini detection. Better handling of devices under poor lighting.*
-
 ### Performance Metrics
 
 #### Precision-Recall Curves
-![PR Curves](benchmark_results/metrics/pr_curves_comparison.png)
-*Precision-Recall curves for both approaches at different confidence thresholds*
+![PR Curve YOLO](summary/pr_curve_yolo.png)
+![PR Curve YOLO+Gemini](summary/pr_curve_yolo+gemini.png)
+
+*Precision-Recall curves for both approaches showing the trade-off between precision and recall*
 
 #### F1 Score Analysis
-![F1 Curves](benchmark_results/metrics/f1_curves_comparison.png)
-*F1 score comparison across different confidence thresholds*
+![F1 Curve YOLO](summary/f1_curve_yolo.png)
+![F1 Curve YOLO+Gemini](summary/f1_curve_yolo+gemini.png)
 
+*F1 score curves showing the harmonic mean of precision and recall across training epochs*
 
-### Training Progress Analysis
+#### Precision and Recall Curves
+![Precision Curve YOLO](summary/precision_curve_yolo.png)
+![Precision Curve YOLO+Gemini](summary/precision_curve_yolo+gemini.png)
 
-#### Early Training (Epochs 0-25)
-- YOLO: 
-  - Precision: 0.634
-  - Recall: 0.724
-  - mAP50: 0.732
-  - mAP50-95: 0.126
+![Recall Curve YOLO](summary/recall_curve_yolo.png)
+![Recall Curve YOLO+Gemini](summary/recall_curve_yolo+gemini.png)
 
-- YOLO+Gemini:
-  - Precision: 0.655
-  - Recall: 0.748
-  - mAP50: 0.756
-  - mAP50-95: 0.118
+*Individual precision and recall curves showing the evolution of these metrics during training*
 
-#### Mid Training (Epochs 50-75)
-- YOLO:
-  - Precision: 0.733
-  - Recall: 0.606
-  - mAP50: 0.614
-  - mAP50-95: 0.126
+#### Confusion Matrices
+![Confusion Matrix YOLO](summary/confusion_matrix_yolo.png)
+![Confusion Matrix YOLO+Gemini](summary/confusion_matrix_yolo+gemini.png)
 
-- YOLO+Gemini:
-  - Precision: 0.752
-  - Recall: 0.622
-  - mAP50: 0.630
-  - mAP50-95: 0.118
-
-#### Late Training (Epochs 90-99)
-- YOLO:
-  - Precision: 0.900
-  - Recall: 0.071
-  - mAP50: 0.071
-  - mAP50-95: 0.024
-
-- YOLO+Gemini:
-  - Precision: 0.800
-  - Recall: 0.063
-  - mAP50: 0.063
-  - mAP50-95: 0.016
+*Confusion matrices showing the distribution of true and predicted classes for both models*
 
 ### Key Findings
 
-1. **Precision-Recall Trade-off**:
-   - Both models show a trade-off between precision and recall
-   - YOLO+Gemini maintains higher precision throughout training
-   - YOLO shows slightly better recall in early training stages
+1. **Training Progress**:
+   - Both models show significant improvement in precision over training epochs
+   - YOLO+Gemini consistently maintains higher precision throughout training
+   - Final precision reaches 100% for both models, but at the cost of recall
 
-2. **Training Stability**:
-   - YOLO+Gemini shows more stable precision metrics
-   - Both models experience recall degradation in later epochs
-   - mAP50-95 remains relatively stable for both models
+2. **Model Performance Comparison**:
+   - YOLO+Gemini shows better precision (100% vs 90% in final epochs)
+   - YOLO demonstrates slightly better recall in early stages
+   - Both models show similar mAP50-95 scores, indicating comparable overall performance
 
-3. **Performance Characteristics**:
-   - Early training shows best balance of precision and recall
-   - Mid-training shows improved precision but reduced recall
-   - Late training shows high precision but very low recall
+3. **Training Dynamics**:
+   - Early epochs (1-25): Both models show stable performance
+   - Mid epochs (26-75): Gradual improvement in precision
+   - Late epochs (76-100): Rapid precision improvement but recall degradation
 
-4. **Model Comparison**:
-   - YOLO+Gemini generally achieves higher precision
-   - YOLO shows slightly better recall in early stages
-   - Both models converge to similar final states
+4. **Final Performance**:
+   - YOLO: 100% precision, 3.15% recall, 0% mAP50
+   - YOLO+Gemini: 100% precision, 3.15% recall, 0% mAP50
+   - Both models show signs of overfitting in later epochs
 
 ### Recommendations
 
 1. **Optimal Operating Point**:
-   - Consider using models from mid-training (epochs 50-75)
-   - This period shows best balance of precision and recall
-   - Avoid using final epochs due to poor recall
+   - Use models from mid-training (epochs 50-75)
+   - This period shows the best balance between precision and recall
+   - Avoid using final epochs due to poor recall performance
 
 2. **Model Selection**:
-   - Use YOLO+Gemini when high precision is critical
-   - Consider YOLO when recall is more important
-   - Balance between models based on specific use case
+   - YOLO+Gemini is recommended for high-precision requirements
+   - Consider early stopping to prevent overfitting
+   - Implement ensemble approaches combining both models
 
 3. **Future Improvements**:
-   - Investigate causes of recall degradation
-   - Implement early stopping to prevent overfitting
-   - Consider ensemble approaches combining both models
+   - Investigate causes of recall degradation in later epochs
+   - Implement regularization techniques to prevent overfitting
+   - Consider class-balanced training to improve recall
+   - Explore different confidence thresholds for better precision-recall trade-off
 
 ## Implementation
 
