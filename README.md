@@ -247,7 +247,7 @@ If you use this work in your research, please cite:
 ```
 @misc{yolo-llm-ewaste,
   author = {Axel David},
-  title = {YOLO-LLM: Enhancing E-Waste Detection through Hybrid Object Detection},
+  title = {Enhancing E-waste Classification Robustness using YOLO11 and Gemini Large Language Model Validation},
   year = {2025},
   publisher = {GitHub},
   url = {https://github.com/szyxxx/yolo-llm}
