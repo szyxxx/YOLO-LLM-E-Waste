@@ -1,50 +1,42 @@
 # YOLO-LLM: Enhancing E-Waste Detection through Hybrid Object Detection
 
-This research project investigates the effectiveness of combining YOLO (You Only Look Once) with Google's Gemini LLM for improved electronic waste (e-waste) detection and classification. The study aims to demonstrate how large language models can enhance traditional computer vision approaches in the context of e-waste management.
+This research project explores the integration of YOLO (You Only Look Once) with Google's Gemini LLM to improve electronic waste (e-waste) detection and classification. By combining computer vision with large language models, we aim to create a more robust and accurate system for e-waste management.
 
 ## Research Objectives
 
-- Evaluate the performance of YOLO in detecting and classifying electronic devices
-- Investigate the impact of Gemini LLM validation on detection accuracy
-- Compare the effectiveness of standalone YOLO vs. YOLO+Gemini hybrid approach
+Our primary goals are to:
+- Evaluate YOLO's performance in detecting and classifying electronic devices
+- Assess the impact of Gemini LLM validation on detection accuracy
+- Compare the effectiveness of standalone YOLO versus the YOLO+Gemini hybrid approach
 - Analyze the trade-offs between detection speed and accuracy
-- Study the model's performance across different electronic device categories
+- Study model performance across different electronic device categories
 
 ## Methodology
 
-### Approach
-1. **Base Detection**: YOLO model performs initial object detection and classification
-2. **LLM Validation**: Gemini LLM validates and potentially corrects YOLO's classifications
-3. **Hybrid Decision**: System combines both models' outputs for final classification
+### Hybrid Detection Approach
+1. **Initial Detection**: YOLO performs the primary object detection and classification
+2. **LLM Validation**: Gemini LLM validates and refines YOLO's classifications
+3. **Combined Output**: The system merges both models' predictions for final classification
 
-### Dataset
-- Focus on electronic devices commonly found in e-waste
-- 38 distinct classes of electronic devices
-- Test set with ground truth annotations
-- Real-world scenarios with varying conditions
-
-### Evaluation Metrics
-- Precision-Recall curves at different confidence thresholds
-- F1 score analysis
-- Confusion matrices for detailed error analysis
-- mAP50 and mAP50-95 scores
-- Processing time comparison
-- False positive/negative analysis
+### Dataset and Evaluation
+- **Dataset**: 38 distinct classes of electronic devices commonly found in e-waste
+- **Evaluation Metrics**:
+  - Precision-Recall curves
+  - F1 scores
+  - Confusion matrices
+  - mAP50 and mAP50-95 scores
+  - Processing time analysis
+  - False positive/negative rates
 
 ## Results
 
-The evaluation results are stored in the `benchmark_results` directory:
-- `yolo_annotated/`: Results from standalone YOLO
-- `gemini_annotated/`: Results from YOLO+Gemini hybrid approach
-- `metrics/`: Detailed evaluation metrics and visualizations
-
 ### Performance Metrics
 
-#### Precision-Recall Curves
+#### Precision-Recall Analysis
 ![PR Curve YOLO](summary/pr_curve_yolo.png)
 ![PR Curve YOLO+Gemini](summary/pr_curve_yolo+gemini.png)
 
-*Precision-Recall curves for both approaches showing the trade-off between precision and recall*
+*Precision-Recall curves demonstrating the trade-off between precision and recall for both approaches*
 
 #### F1 Score Analysis
 ![F1 Curve YOLO](summary/f1_curve_yolo.png)
@@ -52,16 +44,16 @@ The evaluation results are stored in the `benchmark_results` directory:
 
 *F1 score curves showing the harmonic mean of precision and recall across training epochs*
 
-#### Precision and Recall Curves
+#### Detailed Performance Metrics
 ![Precision Curve YOLO](summary/precision_curve_yolo.png)
 ![Precision Curve YOLO+Gemini](summary/precision_curve_yolo+gemini.png)
 
 ![Recall Curve YOLO](summary/recall_curve_yolo.png)
 ![Recall Curve YOLO+Gemini](summary/recall_curve_yolo+gemini.png)
 
-*Individual precision and recall curves showing the evolution of these metrics during training*
+*Individual precision and recall curves showing metric evolution during training*
 
-#### Confusion Matrices
+#### Classification Analysis
 ![Confusion Matrix YOLO](summary/confusion_matrix_yolo.png)
 ![Confusion Matrix YOLO+Gemini](summary/confusion_matrix_yolo+gemini.png)
 
@@ -70,52 +62,55 @@ The evaluation results are stored in the `benchmark_results` directory:
 ### Key Findings
 
 1. **Model Performance Comparison**:
-   - YOLO+Gemini achieves higher precision (65.5% vs 63.4%) by leveraging Gemini's language understanding to better classify objects
-   - YOLO+Gemini shows improved recall (74.8% vs 72.4%) due to Gemini's ability to identify objects in challenging scenarios
-   - YOLO+Gemini achieves better mAP50 (75.6% vs 73.2%), demonstrating superior overall detection accuracy
-   - The hybrid approach shows consistent performance improvements across all metrics
+   - YOLO+Gemini achieves higher precision (65.5% vs 63.4%) by leveraging Gemini's language understanding
+   - Improved recall (74.8% vs 72.4%) in challenging detection scenarios
+   - Better mAP50 (75.6% vs 73.2%) demonstrating superior overall accuracy
+   - Consistent performance improvements across all metrics
 
 2. **Advantages and Disadvantages**:
-   - Advantages:
-     * Better handling of complex scenes through Gemini's semantic understanding
+   - **Advantages**:
+     * Enhanced complex scene understanding through Gemini's semantic capabilities
      * More accurate classification of similar-looking objects
-     * Improved performance on partially occluded objects
-     * More robust to variations in lighting and angles
+     * Better performance on partially occluded objects
+     * Improved robustness to lighting and angle variations
    
-   - Disadvantages:
-     * Higher computational overhead due to running two models
-     * Increased inference time compared to standalone YOLO
-     * More complex deployment requirements
-     * Higher resource consumption for training and inference
+   - **Disadvantages**:
+     * Increased computational requirements
+     * Longer inference times
+     * More complex deployment setup
+     * Higher resource consumption
 
-### **Future Improvements and Model Retraining Strategy**:
-   - Implement iterative retraining pipeline to continuously improve model performance:
-     * Start with base YOLO model and evaluate metrics
-     * Identify weak areas (low recall/precision) and adjust training parameters
-     * Retrain with modified hyperparameters and evaluate again
-     * Repeat until optimal performance is achieved
-   
-   - Optimize training process:
-     * Use learning rate scheduling to prevent overfitting
-     * Implement data augmentation techniques for better generalization
-     * Apply transfer learning from pre-trained models
-     * Fine-tune model architecture based on performance analysis
-   
-   - Enhance model robustness:
-     * Implement cross-validation to ensure consistent performance
-     * Use ensemble methods combining multiple model variants
-     * Apply regularization techniques (dropout, weight decay)
-     * Optimize anchor box configurations for better detection
-   
-   - Performance monitoring and optimization:
-     * Track metrics across training iterations
-     * Implement early stopping based on validation performance
-     * Use automated hyperparameter tuning
-     * Maintain training logs for performance analysis
+## Future Improvements
+
+### Model Retraining Strategy
+1. **Iterative Improvement Pipeline**:
+   - Start with base YOLO model evaluation
+   - Identify performance bottlenecks
+   - Adjust training parameters
+   - Retrain and evaluate
+   - Repeat until optimal performance
+
+2. **Training Optimization**:
+   - Implement learning rate scheduling
+   - Apply advanced data augmentation
+   - Utilize transfer learning
+   - Fine-tune model architecture
+
+3. **Robustness Enhancements**:
+   - Implement cross-validation
+   - Use ensemble methods
+   - Apply regularization techniques
+   - Optimize anchor box configurations
+
+4. **Performance Monitoring**:
+   - Track metrics across iterations
+   - Implement early stopping
+   - Use automated hyperparameter tuning
+   - Maintain detailed training logs
 
 ## Implementation
 
-### Setup
+### Setup Instructions
 
 1. Clone the repository:
 ```bash
@@ -187,7 +182,7 @@ yolo-llm/
 │   │   ├── images/          # Test images
 │   │   └── labels/          # Ground truth annotations
 ├── models/                   # Pre-trained models
-│   └── e-waste.pt               # YOLO model weights
+│   └── e-waste.pt           # YOLO model weights
 ├── benchmark_results/        # Evaluation results
 │   ├── yolo_annotated/      # YOLO-only results
 │   ├── gemini_annotated/    # YOLO+Gemini results
@@ -198,7 +193,7 @@ yolo-llm/
 
 ## Supported Device Classes
 
-The system evaluates detection and classification of 38 electronic devices:
+The system can detect and classify 38 electronic devices:
 - Battery
 - Body Weight Scale
 - Calculator
@@ -240,11 +235,11 @@ The system evaluates detection and classification of 38 electronic devices:
 
 ## Future Work
 
-- Integration with other LLM models
-- Real-time processing capabilities
+- Integration with additional LLM models
+- Real-time processing optimization
 - Multi-modal input support
 - Automated e-waste sorting system integration
-- Performance optimization for edge devices
+- Edge device optimization
 
 ## Citation
 
